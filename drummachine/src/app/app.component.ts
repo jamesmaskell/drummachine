@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Play } from './play-sound/index';
 
 @Component({
   selector: 'app-root',
