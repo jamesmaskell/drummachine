@@ -3,7 +3,7 @@
     *ngFor="let pad of drumpads"
     id="{{ pad.Key }}-sounds"
     class="drum-pad"
-    (click)="onClick(pad.Description, padDOMHandle)"
+    (click)="onClick(pad.Description, pad.Source)"
   >
     {{ pad.Key
     }}<audio
