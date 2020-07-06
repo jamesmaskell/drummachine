@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { Howl, Howler } from 'howler';
 
 @Component({
@@ -7,74 +7,83 @@ import { Howl, Howler } from 'howler';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'drummachine';
+  title = 'Drum machine';
   soundDescription: string;
+  @ViewChild('padDOMHandle') dom: ElementRef;
 
   drumpads = [
     {
       Key: 'Q',
       Source: '../assets/Heater-1.mp3',
-      Description: 'Q sound',
+      Description: 'Heater 1',
     },
     {
       Key: 'W',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'W sound',
+      Source: '../assets/Heater-2.mp3',
+      Description: 'Heater 2',
     },
     {
       Key: 'E',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'E sound',
+      Source: '../assets/Heater-3.mp3',
+      Description: 'Heater 3',
     },
     {
       Key: 'A',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'A sound',
+      Source: '../assets/Heater-4_1.mp3',
+      Description: 'Header 4',
     },
     {
       Key: 'S',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'S sound',
+      Source: '../assets/Heater-6.mp3',
+      Description: 'Clap',
     },
     {
       Key: 'D',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'D sound',
+      Source: '../assets/Dsc_Oh.mp3',
+      Description: 'Open HH',
     },
     {
       Key: 'Z',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'Z sound',
+      Source: '../assets/Kick_n_Hat.mp3',
+      Description: "Kick n' hat",
     },
     {
       Key: 'X',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'X sound',
+      Source: '../assets/RP4_KICK_1.mp3',
+      Description: 'Kick',
     },
     {
       Key: 'C',
-      Source: '../assets/Heater-1.mp3',
-      Description: 'C sound',
+      Source: '../assets/Cev_H2.mp3',
+      Description: 'Closed HH',
     },
   ];
 
-  onClick(description, source): void {
-    this.play(description, source);
+  onClick(description, key): void {
+    this.soundDescription = description;
+    this.play(key);
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    let pad = this.drumpads.find(
-      (element) => element.Key.toLowerCase() == event.key.toLowerCase()
-    );
-    if (pad != undefined) this.play(pad.Description, pad.Source);
+    this.play(event.key.toUpperCase());
   }
 
-  play(description, source): void {
-    this.soundDescription = description;
-    let sound = new Howl({
-      src: [source],
-    });
-    sound.play();
+  play(key) {
+    // Don't like tying the DOM to the component code
+    // However, freecodecamp tests 6 and 7 forced this upon me
+    let audioElements: HTMLCollection = this.dom.nativeElement.getElementsByTagName(
+      'audio'
+    );
+    let drumpad: HTMLAudioElement;
+    for (let i = 0; i <= audioElements.length - 1; i++) {
+      if (audioElements.item(i).id === key) {
+        drumpad = <HTMLAudioElement>audioElements.item(i);
+        break;
+      }
+    }
+    if (drumpad) {
+      drumpad.play();
+    }
   }
 }
