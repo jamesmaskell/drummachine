@@ -68,8 +68,10 @@ export class AppComponent {
     let pad = this.drumpads.find(
       (pad) => pad.Key.toUpperCase() === event.key.toUpperCase()
     );
-    this.soundDescription = pad.Description;
-    this.play(event.key.toUpperCase());
+    if (pad) {
+      this.soundDescription = pad.Description;
+      this.play(event.key.toUpperCase());
+    }
   }
 
   play(key) {

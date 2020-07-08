@@ -1,4 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+
+@mixin drumpad($color) {
+  background-color: rgba($color, 1);
+
+  &:active {
+    background-color: rgba($color, 0.8);
+    top: 1px;
+    left: 1px;
+  }
+}
+
+h1 {
+  font-family: "Permanent Marker", cursive;
+  text-align: center;
+  font-size: 3em;
+  padding: 0;
+  margin: 20px 0;
+  color: whitesmoke;
+}
 
 #drum-machine {
   display: grid;
@@ -9,63 +29,82 @@
   line-height: 100%;
   font-family: "Questrial", sans-serif;
   font-size: 2em;
+
+  .drum-pad {
+    width: 180px;
+    height: 180px;
+    background-color: black;
+    margin: 10px;
+    color: black;
+    padding: 10px;
+    border-radius: 1.5px;
+    -webkit-box-shadow: inset 0px 0px 15px black;
+    -moz-box-shadow: inset 0px 0px 15x black;
+    box-shadow: inset 0px 0px 15px black;
+    position: relative;
+  }
+
+  #Q-sounds {
+    @include drumpad(rgb(255, 101, 0));
+  }
+
+  #W-sounds {
+    @include drumpad(rgb(255, 123, 0));
+  }
+
+  #E-sounds {
+    @include drumpad(rgb(255, 144, 0));
+  }
+
+  #A-sounds {
+    @include drumpad(rgb(255, 165, 0));
+  }
+
+  #S-sounds {
+    @include drumpad(purple);
+  }
+
+  #D-sounds {
+    @include drumpad(rgb(0, 255, 101));
+  }
+
+  #C-sounds {
+    @include drumpad(rgb(0, 255, 229));
+  }
+
+  #Z-sounds {
+    @include drumpad(rgb(255, 0, 26));
+  }
+
+  #X-sounds {
+    @include drumpad(rgb(255, 38, 0));
+  }
+}
+
+#volume {
+  width: 640px;
+  height: 50px;
+  background-color: yellow;
+  margin: 0 auto;
 }
 
 #display {
   text-align: center;
-  width: 660px;
+  width: 640px;
+  height: 50px;
   margin: 0 auto;
-  background-color: rgb(128, 0, 0, 0.5);
+  background-color: rgb(128, 0, 0, 0.3);
   color: white;
   font-family: "Questrial", sans-serif;
   font-size: 2em;
-}
+  padding: 10px 0;
+  margin-bottom: 20px;
+  -webkit-box-shadow: inset 0px 0px 15px black;
+  -moz-box-shadow: inset 0px 0px 15x black;
+  box-shadow: inset 0px 0px 15px black;
 
-.drum-pad {
-  width: 180px;
-  height: 180px;
-  background-color: black;
-  margin: 10px;
-  color: black;
-  padding: 10px;
-  border-radius: 1.5px;
-  -webkit-box-shadow: inset 0px 0px 10px black;
-  -moz-box-shadow: inset 0px 0px 10px black;
-  box-shadow: inset 0px 0px 10px black;
-}
-
-#Q-sounds {
-  background-color: rgba(255, 101, 0, 1);
-
-  &:active {
-    background-color: rgba(255, 101, 0, 0.8);
+  h2 {
+    margin: 0;
+    padding: 0;
   }
-}
-
-#W-sounds {
-  background-color: #ff7b00;
-}
-
-#E-sounds {
-  background-color: #ff9000;
-}
-
-#A-sounds {
-  background-color: #ffa500;
-}
-
-#D-sounds {
-  background-color: #00ff65;
-}
-
-#C-sounds {
-  background-color: #00ffe5;
-}
-
-#Z-sounds {
-  background-color: #ff001a;
-}
-
-#X-sounds {
-  background-color: #ff2600;
 }

@@ -1,3 +1,8 @@
+<h1>Drum Machine</h1>
+<div id="display">
+  <h2>{{ soundDescription }}</h2>
+</div>
+<div id="volume"></div>
 <div id="drum-machine" #padDOMHandle>
   <div
     *ngFor="let pad of drumpads"
@@ -8,7 +13,4 @@
     <span>{{ pad.Key }}</span
     ><audio id="{{ pad.Key }}" src="{{ pad.Source }}" class="clip"></audio>
   </div>
-</div>
-<div id="display">
-  <h2>{{ soundDescription }}</h2>
 </div>
