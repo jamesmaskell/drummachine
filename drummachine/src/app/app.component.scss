@@ -1,15 +1,71 @@
-.drum-pad {
-  width: 100px;
-  height: 100px;
-  background-color: black;
-  margin: 10px;
-  display: inline-block;
-  color: whitesmoke;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
+
+#drum-machine {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  width: 660px;
+  margin: 0 auto;
+  vertical-align: middle;
+  line-height: 100%;
+  font-family: "Questrial", sans-serif;
+  font-size: 2em;
 }
 
-audio {
-  width: 100px;
-  height: 100px;
-  display: inline-block;
+#display {
+  text-align: center;
+  width: 660px;
+  margin: 0 auto;
+  background-color: rgb(128, 0, 0, 0.5);
+  color: white;
+  font-family: "Questrial", sans-serif;
+  font-size: 2em;
+}
+
+.drum-pad {
+  width: 180px;
+  height: 180px;
+  background-color: black;
+  margin: 10px;
+  color: black;
+  padding: 10px;
+  border-radius: 1.5px;
+  -webkit-box-shadow: inset 0px 0px 10px black;
+  -moz-box-shadow: inset 0px 0px 10px black;
+  box-shadow: inset 0px 0px 10px black;
+}
+
+#Q-sounds {
+  background-color: rgba(255, 101, 0, 1);
+
+  &:active {
+    background-color: rgba(255, 101, 0, 0.8);
+  }
+}
+
+#W-sounds {
+  background-color: #ff7b00;
+}
+
+#E-sounds {
+  background-color: #ff9000;
+}
+
+#A-sounds {
+  background-color: #ffa500;
+}
+
+#D-sounds {
+  background-color: #00ff65;
+}
+
+#C-sounds {
+  background-color: #00ffe5;
+}
+
+#Z-sounds {
+  background-color: #ff001a;
+}
+
+#X-sounds {
+  background-color: #ff2600;
 }

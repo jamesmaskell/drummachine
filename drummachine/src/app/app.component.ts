@@ -1,5 +1,4 @@
 import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
-import { Howl, Howler } from 'howler';
 
 @Component({
   selector: 'app-root',
@@ -66,17 +65,23 @@ export class AppComponent {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    let pad = this.drumpads.find(
+      (pad) => pad.Key.toUpperCase() === event.key.toUpperCase()
+    );
+    this.soundDescription = pad.Description;
     this.play(event.key.toUpperCase());
   }
 
   play(key) {
-    // Don't like tying the DOM to the component code
+    // Don't like tying the DOM to the component code (Angular say don't do this)
     // However, freecodecamp tests 6 and 7 forced this upon me
     let audioElements: HTMLCollection = this.dom.nativeElement.getElementsByTagName(
       'audio'
     );
     let drumpad: HTMLAudioElement;
+    // loop through HTMLCollection, because apparently it doesn't have an iterator....
     for (let i = 0; i <= audioElements.length - 1; i++) {
+      // if pad clicked matches the collection item, we are going to use that drum pad so stop looping
       if (audioElements.item(i).id === key) {
         drumpad = <HTMLAudioElement>audioElements.item(i);
         break;
