@@ -8,6 +8,8 @@ import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
 export class AppComponent {
   title = 'Drum machine';
   soundDescription: string;
+  volume: number = 0.5;
+  volumeBar: number = 320;
   @ViewChild('padDOMHandle') dom: ElementRef;
 
   drumpads = [
@@ -58,13 +60,54 @@ export class AppComponent {
     },
   ];
 
-  onClick(description, key): void {
+  onDragStart(e: DragEvent) {
+    var img = document.createElement('img');
+    img.src =
+      'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    e.dataTransfer.setDragImage(img, 0, 0);
+  }
+
+  onDrag(e: DragEvent) {
+    if (e.offsetX > 0) {
+      this.volumeBar = e.offsetX;
+      this.volume = e.offsetX / 640;
+    }
+  }
+
+  onVolClick(e: MouseEvent) {
+    this.volumeBar = e.offsetX;
+    this.volume = e.offsetX / 640;
+  }
+
+  onPadClick(description, key): void {
     this.soundDescription = description;
     this.play(key);
   }
 
+  slide(slideKey: string) {
+    if (slideKey === ',' && this.volume > 0) {
+      this.volChange(-1);
+    }
+
+    if (slideKey === '.' && this.volume < 1) {
+      this.volChange(1);
+    }
+  }
+
+  volChange(sign: number) {
+    const inc = 10 / 640;
+    this.volumeBar += 10 * sign;
+    this.volume += inc * sign;
+  }
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    console.log(event.key);
+
+    if (event.key === ',' || event.key === '.') {
+      this.slide(event.key);
+    }
+
     let pad = this.drumpads.find(
       (pad) => pad.Key.toUpperCase() === event.key.toUpperCase()
     );
@@ -90,6 +133,7 @@ export class AppComponent {
       }
     }
     if (drumpad) {
+      drumpad.volume = this.volume;
       drumpad.play();
     }
   }

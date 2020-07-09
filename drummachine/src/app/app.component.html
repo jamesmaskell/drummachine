@@ -2,13 +2,21 @@
 <div id="display">
   <h2>{{ soundDescription }}</h2>
 </div>
-<div id="volume"></div>
+<div
+  id="volume-control"
+  draggable="true"
+  (click)="onVolClick($event)"
+  (dragstart)="onDragStart($event)"
+  (drag)="onDrag($event)"
+>
+  <div id="volume" style="width:{{ volumeBar }}px;"></div>
+</div>
 <div id="drum-machine" #padDOMHandle>
   <div
     *ngFor="let pad of drumpads"
     id="{{ pad.Key }}-sounds"
     class="drum-pad"
-    (click)="onClick(pad.Description, pad.Key)"
+    (click)="onPadClick(pad.Description, pad.Key)"
   >
     <span>{{ pad.Key }}</span
     ><audio id="{{ pad.Key }}" src="{{ pad.Source }}" class="clip"></audio>
