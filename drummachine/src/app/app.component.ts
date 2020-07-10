@@ -68,10 +68,24 @@ export class AppComponent {
   }
 
   onDrag(e: DragEvent) {
-    if (e.offsetX > 0) {
+    console.log('onDragA', this.volumeBar);
+
+    if (e.offsetX > -16 && e.offsetX < 624) {
       this.volumeBar = e.offsetX;
-      this.volume = e.offsetX / 640;
+      this.volume = (e.offsetX + 16) / 640;
+    } else if (e.offsetX >= 624) {
+      this.volumeBar = 624;
+      this.volume = 1;
+    } else if (e.offsetX <= -16) {
+      this.volumeBar = -16;
+      this.volume = 0;
     }
+
+    console.log('onDragB', this.volumeBar);
+  }
+
+  onDragEnd() {
+    console.log('onDragEnd', this.volumeBar);
   }
 
   onVolClick(e: MouseEvent) {
@@ -85,28 +99,22 @@ export class AppComponent {
   }
 
   slide(slideKey: string) {
-    if (slideKey === ',' && this.volume > 0) {
-      this.volChange(-1);
-    }
-
-    if (slideKey === '.' && this.volume < 1) {
-      this.volChange(1);
-    }
-  }
-
-  volChange(sign: number) {
-    const inc = 10 / 640;
-    this.volumeBar += 10 * sign;
-    this.volume += inc * sign;
+    (slideKey === ',' || slideKey === 'ArrowLeft') && this.volume > 0
+      ? this.volumeBar - 10 < 0
+        ? (this.volumeBar = -16)
+        : (this.volumeBar -= 10)
+      : this.volumeBar;
+    (slideKey === '.' || slideKey === 'ArrowRight') && this.volume < 1
+      ? this.volumeBar - 10 > 624
+        ? (this.volumeBar = 624)
+        : (this.volumeBar += 10)
+      : this.volumeBar;
+    this.volume = (this.volumeBar + 16) / 640;
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    console.log(event.key);
-
-    if (event.key === ',' || event.key === '.') {
-      this.slide(event.key);
-    }
+    this.slide(event.key);
 
     let pad = this.drumpads.find(
       (pad) => pad.Key.toUpperCase() === event.key.toUpperCase()

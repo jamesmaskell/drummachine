@@ -8,8 +8,9 @@
   (click)="onVolClick($event)"
   (dragstart)="onDragStart($event)"
   (drag)="onDrag($event)"
+  (dragend)="onDragEnd()"
 >
-  <div id="volume" style="width:{{ volumeBar }}px;"></div>
+  <div id="volume" style="left:{{ volumeBar }}px;"><div id="switch"></div></div>
 </div>
 <div id="drum-machine" #padDOMHandle>
   <div
