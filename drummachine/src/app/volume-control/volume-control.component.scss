@@ -1,0 +1,35 @@
+#volume-control {
+  width: 640px;
+  height: 10px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  background-color: rgb(17, 17, 17);
+  border-radius: 5px;
+
+  #volume {
+    position: relative;
+    top: -8px;
+    width: 32px;
+    height: 26px;
+    border-radius: 9px;
+    background: linear-gradient(
+      180deg,
+      rgba(250, 66, 45, 1),
+      rgba(157, 12, 0, 1)
+    );
+  }
+
+  #switch {
+    position: relative;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 22px;
+    border-radius: 9px;
+    background: linear-gradient(
+      90deg,
+      rgba(250, 66, 45, 1),
+      rgba(157, 12, 0, 1)
+    );
+  }
+}

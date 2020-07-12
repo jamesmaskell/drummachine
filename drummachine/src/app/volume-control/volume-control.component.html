@@ -1,0 +1,9 @@
+<div
+  id="volume-control"
+  draggable="true"
+  (click)="onVolClick($event)"
+  (dragstart)="onDragStart($event)"
+  (drag)="onDrag($event)"
+>
+  <div id="volume" style="left:{{ volumeBar }}px;"><div id="switch"></div></div>
+</div>
