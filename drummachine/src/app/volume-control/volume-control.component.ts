@@ -14,7 +14,9 @@ export class VolumeControlComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.volChange.emit((this.volumeBar + 16) / 640);
+  }
 
   onDragStart(e: DragEvent) {
     var img = document.createElement('img');
@@ -57,44 +59,6 @@ export class VolumeControlComponent implements OnInit {
 
   calculateVolume() {
     this.volChange.emit((this.volumeBar + 16) / 640);
-  }
-
-  debounce = (func, wait) => {
-    let timeout;
-
-    return function executedFunction(...args) {
-      const later = () => {
-        timeout = null;
-        func(...args);
-      };
-
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  };
-
-  mimicClickOnKeypress(dp: HTMLDivElement) {
-    let x = window.getComputedStyle(dp);
-    let arr = [
-      x.getPropertyValue('background-color'),
-      x.getPropertyValue('top'),
-      x.getPropertyValue('left'),
-    ];
-
-    // create new color for keypress
-    let newcol = arr[0].replace('rgb', 'rgba');
-    newcol = arr[0].replace(/\)/i, ', 0.8)');
-
-    dp.style.backgroundColor = newcol;
-    dp.style.top = '1px';
-    dp.style.left = '1px';
-
-    // reset unpressed css
-    this.debounce(() => {
-      dp.style.backgroundColor = arr[0];
-      dp.style.top = arr[1];
-      dp.style.left = arr[2];
-    }, 100);
   }
 
   @HostListener('document:keydown', ['$event'])

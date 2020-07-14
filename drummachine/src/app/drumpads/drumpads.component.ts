@@ -5,10 +5,11 @@ import {
   HostListener,
   Output,
   EventEmitter,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { DrummachineService } from '../drummachine.service';
 import { Drumpads } from '../drumpads';
-
 @Component({
   selector: 'app-drumpads',
   templateUrl: './drumpads.component.html',
@@ -16,8 +17,10 @@ import { Drumpads } from '../drumpads';
 })
 export class DrumpadsComponent implements OnInit {
   drumpads: Drumpads[];
-  @Input('volume') volume: number;
+  timer: any;
 
+  @ViewChild('padDOMHandle') dom: ElementRef;
+  @Input('volume') volume: number;
   @Output() soundDescription: EventEmitter<string> = new EventEmitter();
   @Output() keypressEmit: EventEmitter<void> = new EventEmitter();
 
@@ -26,8 +29,11 @@ export class DrumpadsComponent implements OnInit {
   ngOnInit() {
     this.drumpadService.getDrumpads().subscribe((drumpadArr) => {
       this.drumpads = drumpadArr;
-      console.log(drumpadArr);
     });
+  }
+
+  setVolume(e) {
+    this.volume = e;
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -52,21 +58,42 @@ export class DrumpadsComponent implements OnInit {
     let audioElements: HTMLCollection = this.dom.nativeElement.getElementsByTagName(
       'audio'
     );
-    let drumpad: HTMLAudioElement;
-    let dp: HTMLDivElement;
+    let drumpadAudioHandle: HTMLAudioElement;
+    let drumpadDivHandle: HTMLDivElement;
     // loop through HTMLCollection, because apparently it doesn't have an iterator....
     for (let i = 0; i <= audioElements.length - 1; i++) {
       // if pad clicked matches the collection item, we are going to use that drum pad so stop looping
       if (audioElements.item(i).id === key) {
-        drumpad = <HTMLAudioElement>audioElements.item(i);
-        dp = <HTMLDivElement>audioElements.item(i).parentElement;
+        drumpadAudioHandle = <HTMLAudioElement>audioElements.item(i);
+        drumpadDivHandle = <HTMLDivElement>audioElements.item(i).parentElement;
         break;
       }
     }
-    if (drumpad) {
-      drumpad.volume = this.volume;
-      if (keypress) this.keypressEmit.emit();
-      drumpad.play();
+    if (drumpadAudioHandle) {
+      drumpadAudioHandle.volume = this.volume;
+      if (keypress) this.mimicClickOnKeypress(drumpadDivHandle);
+      drumpadAudioHandle.play();
     }
+  }
+
+  mimicClickOnKeypress(drumpadDivHandle: HTMLDivElement) {
+    clearTimeout(this.timer);
+    let drumpadStyle = window.getComputedStyle(drumpadDivHandle);
+
+    // create new color for keypress
+    let newColor = drumpadStyle
+      .getPropertyValue('background-color')
+      .replace('rgb', 'rgba');
+    newColor = newColor.replace(/\)/i, ', 0.8)');
+
+    drumpadDivHandle.style.backgroundColor = newColor;
+    drumpadDivHandle.style.top = '1px';
+    drumpadDivHandle.style.left = '1px';
+
+    this.timer = setTimeout(() => {
+      drumpadDivHandle.style.backgroundColor = '';
+      drumpadDivHandle.style.top = '';
+      drumpadDivHandle.style.left = '';
+    }, 100);
   }
 }

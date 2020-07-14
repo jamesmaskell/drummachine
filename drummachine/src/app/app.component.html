@@ -2,5 +2,10 @@
 <div id="display">
   <h2>{{ soundDescription }}</h2>
 </div>
-<app-volume-control (volChange)="setVolume($event)"></app-volume-control>
-<app-drumpads (soundDescription)="setSoundDescription($event)"></app-drumpads>
+<app-volume-control
+  (volChange)="drumpads.setVolume($event)"
+></app-volume-control>
+<app-drumpads
+  #drumpads
+  (soundDescription)="setSoundDescription($event)"
+></app-drumpads>

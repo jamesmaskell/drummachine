@@ -16,16 +16,9 @@ import { DrummachineService } from './drummachine.service';
 export class AppComponent {
   title = 'Drum machine';
   soundDescription: string;
-  @ViewChild('padDOMHandle') dom: ElementRef;
-  volume: number = 0.5;
-
   constructor(private drumpadService: DrummachineService) {}
 
   ngOnInit() {}
-
-  setVolume(e) {
-    this.volume = e;
-  }
 
   setSoundDescription(e) {
     this.soundDescription = e;
